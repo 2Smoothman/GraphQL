@@ -6,18 +6,18 @@ import org.example.model.Bio;
 import org.example.model.Profile;
 import org.example.model.User;
 import org.example.repository.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import jakarta.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
-
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    private final PasswordEncoder passwordEncoder;
 
     @PostConstruct
     @Transactional
@@ -36,6 +36,7 @@ public class UserService {
             User user1 = new User();
             user1.setUsername("ivan");
             user1.setEmail("ivan@example.com");
+            user1.setPassword(passwordEncoder.encode("password123"));
             user1.setProfile(profile1);
             profile1.setUser(user1);
 
