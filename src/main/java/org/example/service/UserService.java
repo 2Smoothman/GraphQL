@@ -1,6 +1,8 @@
 package org.example.service;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.example.dto.CreateUserInput;
 import org.example.model.Bio;
@@ -90,6 +92,11 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("User not found"));
     }
 
+    @Transactional(readOnly = true)
+    public List<User> getUsersByIds(Collection<Long> ids) {
+        return userRepository.findAllById(ids);
+    }
+
     @Transactional
     public User createUserWithProfile(CreateUserInput input) {
         Bio bio = new Bio();
@@ -108,6 +115,18 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(input.getPassword()));
         user.setProfile(profile);
         profile.setUser(user);
+
+        if (input.getRecommendations() != null) {
+            user.setRecommendations(input.getRecommendations().stream()
+                .map(Long::valueOf)
+                .collect(Collectors.toSet()));
+        }
+        
+        if (input.getConnections() != null) {
+            user.setConnections(input.getConnections().stream()
+                .map(Long::valueOf)
+                .collect(Collectors.toSet()));
+        }
 
         return userRepository.save(user);
     }

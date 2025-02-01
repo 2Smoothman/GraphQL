@@ -10,6 +10,7 @@ import org.example.service.UserService;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
+import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 
@@ -71,5 +72,15 @@ public class UserController {
             throw new RuntimeException("Bio not found");
         }
         return user.getProfile().getBio();
+    }
+
+    @SchemaMapping(typeName = "User", field = "recommendations")
+    public List<User> getRecommendations(User user) {
+        return userService.getUsersByIds(user.getRecommendations());
+    }
+
+    @SchemaMapping(typeName = "User", field = "connections")
+    public List<User> getConnections(User user) {
+        return userService.getUsersByIds(user.getConnections());
     }
 } 

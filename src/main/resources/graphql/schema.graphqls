@@ -35,6 +35,8 @@ input CreateUserInput {
     email: String!
     password: String!
     profile: ProfileInput!
+    recommendations: [ID]
+    connections: [ID]
 }
 
 type User {
@@ -42,6 +44,8 @@ type User {
     username: String!
     email: String!
     profile: Profile
+    recommendations: [User]
+    connections: [User]
 }
 
 type Profile {
