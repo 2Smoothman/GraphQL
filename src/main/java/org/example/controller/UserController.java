@@ -6,6 +6,8 @@ import org.example.dto.CreateUserInput;
 import org.example.model.Bio;
 import org.example.model.Profile;
 import org.example.model.User;
+import org.example.service.BioService;
+import org.example.service.ProfileService;
 import org.example.service.UserService;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
@@ -17,9 +19,13 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class UserController {
     private final UserService userService;
+    private final ProfileService profileService;
+    private final BioService bioService;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, ProfileService profileService, BioService bioService) {
         this.userService = userService;
+        this.profileService = profileService;
+        this.bioService = bioService;
     }
 
     @QueryMapping
@@ -82,5 +88,15 @@ public class UserController {
     @SchemaMapping(typeName = "User", field = "connections")
     public List<User> getConnections(User user) {
         return userService.getUsersByIds(user.getConnections());
+    }
+
+    @QueryMapping
+    public Bio bioById(@Argument Long id) {
+        return bioService.getBioById(id);
+    }
+
+    @QueryMapping
+    public Profile profileById(@Argument Long id) {
+        return profileService.getProfileById(id);
     }
 } 

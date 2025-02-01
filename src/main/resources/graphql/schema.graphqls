@@ -4,6 +4,8 @@ type Query {
     me: User
     myProfile: Profile
     myBio: Bio
+    bioById(id: ID!): Bio
+    profileById(id: ID!): Profile
 }
 
 type Mutation {
