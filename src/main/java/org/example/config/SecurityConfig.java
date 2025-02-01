@@ -31,6 +31,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers("/graphql/**", "/graphiql/**", "/subscriptions/**").permitAll()
+                .requestMatchers("/api/bios/**", "/api/profiles/**", "/api/users/**", "/api/bios", "/api/profiles").permitAll()
                 .anyRequest().authenticated()
             )
             .sessionManagement(session -> session

@@ -76,6 +76,8 @@ public class UserService {
                 if (userDetails.getProfile() != null) {
                     user.getProfile().setFirstName(userDetails.getProfile().getFirstName());
                     user.getProfile().setLastName(userDetails.getProfile().getLastName());
+                    user.getProfile().setAboutMe(userDetails.getProfile().getAboutMe());
+                    user.getProfile().setPictureUrl(userDetails.getProfile().getPictureUrl());
                     if (userDetails.getProfile().getBio() != null) {
                         user.getProfile().getBio().setDescription(userDetails.getProfile().getBio().getDescription());
                         user.getProfile().getBio().setInterests(userDetails.getProfile().getBio().getInterests());
@@ -106,6 +108,8 @@ public class UserService {
         Profile profile = new Profile();
         profile.setFirstName(input.getProfile().getFirstName());
         profile.setLastName(input.getProfile().getLastName());
+        profile.setAboutMe(input.getProfile().getAboutMe());
+        profile.setPictureUrl(input.getProfile().getPictureUrl());
         profile.setBio(bio);
         bio.setProfile(profile);
 

@@ -1,5 +1,7 @@
 package org.example.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,6 +26,7 @@ public class Bio {
     @Column(columnDefinition = "TEXT")
     private String interests;
     
+    @JsonBackReference
     @OneToOne
     @JoinColumn(name = "profile_id")
     private Profile profile;

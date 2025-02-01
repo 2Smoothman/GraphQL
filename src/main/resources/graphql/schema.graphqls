@@ -22,6 +22,8 @@ input UserInput {
 input ProfileInput {
     firstName: String!
     lastName: String!
+    aboutMe: String
+    pictureUrl: String
     bio: BioInput!
 }
 
@@ -52,6 +54,8 @@ type Profile {
     id: ID!
     firstName: String!
     lastName: String!
+    aboutMe: String
+    pictureUrl: String
     bio: Bio
 }
 
