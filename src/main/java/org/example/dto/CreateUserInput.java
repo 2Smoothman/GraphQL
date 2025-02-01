@@ -1,6 +1,6 @@
 package org.example.dto;
 
-import java.util.List;
+import java.util.Set;
 
 import lombok.Data;
 
@@ -10,6 +10,7 @@ public class CreateUserInput {
     private String email;
     private String password;
     private ProfileInput profile;
-    private List<String> recommendations;
-    private List<String> connections;
+    private BioInput bio;
+    private Set<String> recommendations;
+    private Set<String> connections;
 }

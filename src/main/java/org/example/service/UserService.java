@@ -8,6 +8,7 @@ import org.example.dto.CreateUserInput;
 import org.example.model.Bio;
 import org.example.model.Profile;
 import org.example.model.User;
+import org.example.publisher.UserEventPublisher;
 import org.example.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final UserEventPublisher userEventPublisher;
 
     @PostConstruct
     @Transactional
@@ -101,25 +103,27 @@ public class UserService {
 
     @Transactional
     public User createUserWithProfile(CreateUserInput input) {
-        Bio bio = new Bio();
-        bio.setDescription(input.getProfile().getBio().getDescription());
-        bio.setInterests(input.getProfile().getBio().getInterests());
-
+        User user = new User();
+        user.setUsername(input.getUsername());
+        user.setEmail(input.getEmail());
+        user.setPassword(passwordEncoder.encode(input.getPassword()));
+        
         Profile profile = new Profile();
         profile.setFirstName(input.getProfile().getFirstName());
         profile.setLastName(input.getProfile().getLastName());
         profile.setAboutMe(input.getProfile().getAboutMe());
         profile.setPictureUrl(input.getProfile().getPictureUrl());
-        profile.setBio(bio);
-        bio.setProfile(profile);
-
-        User user = new User();
-        user.setUsername(input.getUsername());
-        user.setEmail(input.getEmail());
-        user.setPassword(passwordEncoder.encode(input.getPassword()));
-        user.setProfile(profile);
         profile.setUser(user);
-
+        
+        Bio bio = new Bio();
+        bio.setDescription(input.getBio().getDescription());
+        bio.setInterests(input.getBio().getInterests());
+        bio.setProfile(profile);
+        bio.setUser(user);
+        
+        user.setProfile(profile);
+        user.setBio(bio);
+        
         if (input.getRecommendations() != null) {
             user.setRecommendations(input.getRecommendations().stream()
                 .map(Long::valueOf)
@@ -131,7 +135,9 @@ public class UserService {
                 .map(Long::valueOf)
                 .collect(Collectors.toSet()));
         }
-
-        return userRepository.save(user);
+        
+        User savedUser = userRepository.save(user);
+        userEventPublisher.publishUserCreated(savedUser);
+        return savedUser;
     }
 } 

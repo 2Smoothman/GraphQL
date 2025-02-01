@@ -11,10 +11,12 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "bios")
 @Data
+@NoArgsConstructor
 public class Bio {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,4 +32,8 @@ public class Bio {
     @OneToOne
     @JoinColumn(name = "profile_id")
     private Profile profile;
+    
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 } 

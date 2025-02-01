@@ -16,17 +16,15 @@ import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 
+import lombok.RequiredArgsConstructor;
+
 @Controller
+@RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
     private final ProfileService profileService;
     private final BioService bioService;
-
-    public UserController(UserService userService, ProfileService profileService, BioService bioService) {
-        this.userService = userService;
-        this.profileService = profileService;
-        this.bioService = bioService;
-    }
+    private final SubscriptionController subscriptionController;
 
     @QueryMapping
     public List<User> users() {
@@ -98,5 +96,31 @@ public class UserController {
     @QueryMapping
     public Profile profileById(@Argument Long id) {
         return profileService.getProfileById(id);
+    }
+
+    @MutationMapping
+    public Boolean sendMessage(@Argument String message) {
+        subscriptionController.sendMessage(message);
+        return true;
+    }
+
+    @SchemaMapping(typeName = "User")
+    public Profile profile(User user) {
+        return user.getProfile();
+    }
+    
+    @SchemaMapping(typeName = "User")
+    public Bio bio(User user) {
+        return user.getBio();
+    }
+    
+    @SchemaMapping(typeName = "Profile")
+    public User user(Profile profile) {
+        return profile.getUser();
+    }
+    
+    @SchemaMapping(typeName = "Bio")
+    public Profile profile(Bio bio) {
+        return bio.getProfile();
     }
 } 

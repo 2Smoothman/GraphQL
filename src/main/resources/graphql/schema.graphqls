@@ -12,6 +12,7 @@ type Mutation {
     createUser(input: CreateUserInput!): User
     updateUser(id: ID!, input: UserInput!): User
     deleteUser(id: ID!): Boolean
+    sendMessage(message: String!): Boolean
 }
 
 input UserInput {
@@ -19,6 +20,7 @@ input UserInput {
     email: String!
     password: String!
     profile: ProfileInput!
+    bio: BioInput!
 }
 
 input ProfileInput {
@@ -26,7 +28,7 @@ input ProfileInput {
     lastName: String!
     aboutMe: String
     pictureUrl: String
-    bio: BioInput!
+    bio: BioInput
 }
 
 input BioInput {
@@ -39,6 +41,7 @@ input CreateUserInput {
     email: String!
     password: String!
     profile: ProfileInput!
+    bio: BioInput!
     recommendations: [ID]
     connections: [ID]
 }
@@ -50,6 +53,7 @@ type User {
     profile: Profile
     recommendations: [User]
     connections: [User]
+    bio: Bio
 }
 
 type Profile {
@@ -59,10 +63,19 @@ type Profile {
     aboutMe: String
     pictureUrl: String
     bio: Bio
+    user: User
 }
 
 type Bio {
     id: ID!
     description: String
     interests: String
+    profile: Profile
+}
+
+type Subscription {
+    userCreated: User
+    userUpdated: User
+    profileUpdated: Profile
+    messageReceived: String
 } 
