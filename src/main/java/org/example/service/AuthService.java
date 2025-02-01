@@ -3,6 +3,8 @@ package org.example.service;
 import org.example.dto.AuthResponse;
 import org.example.dto.SignInRequest;
 import org.example.dto.SignUpRequest;
+import org.example.model.Bio;
+import org.example.model.Profile;
 import org.example.model.User;
 import org.example.repository.UserRepository;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,10 +23,22 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
 
     public AuthResponse signup(SignUpRequest request) {
+        var bio = new Bio();
+        bio.setDescription("New user");
+        bio.setInterests("Not specified");
+
+        var profile = new Profile();
+        profile.setFirstName("New");
+        profile.setLastName("User");
+        profile.setBio(bio);
+        bio.setProfile(profile);
+
         var user = new User();
         user.setUsername(request.getUsername());
         user.setEmail(request.getEmail());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setProfile(profile);
+        profile.setUser(user);
         
         userRepository.save(user);
         

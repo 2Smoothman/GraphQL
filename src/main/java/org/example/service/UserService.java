@@ -2,6 +2,7 @@ package org.example.service;
 
 import java.util.List;
 
+import org.example.dto.CreateUserInput;
 import org.example.model.Bio;
 import org.example.model.Profile;
 import org.example.model.User;
@@ -81,5 +82,33 @@ public class UserService {
                 return userRepository.save(user);
             })
             .orElse(null);
+    }
+
+    @Transactional(readOnly = true)
+    public User getUserByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+    }
+
+    @Transactional
+    public User createUserWithProfile(CreateUserInput input) {
+        Bio bio = new Bio();
+        bio.setDescription(input.getProfile().getBio().getDescription());
+        bio.setInterests(input.getProfile().getBio().getInterests());
+
+        Profile profile = new Profile();
+        profile.setFirstName(input.getProfile().getFirstName());
+        profile.setLastName(input.getProfile().getLastName());
+        profile.setBio(bio);
+        bio.setProfile(profile);
+
+        User user = new User();
+        user.setUsername(input.getUsername());
+        user.setEmail(input.getEmail());
+        user.setPassword(passwordEncoder.encode(input.getPassword()));
+        user.setProfile(profile);
+        profile.setUser(user);
+
+        return userRepository.save(user);
     }
 } 
