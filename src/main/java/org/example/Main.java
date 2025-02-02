@@ -7,7 +7,7 @@ import org.springframework.core.env.AbstractEnvironment;
 @SpringBootApplication
 public class Main {
     public static void main(String[] args) {
-        // Установка профиля по умолчанию, если не указан
+        // Setting the default profile if not specified
         if (System.getProperty(AbstractEnvironment.ACTIVE_PROFILES_PROPERTY_NAME) == null) {
             System.setProperty(AbstractEnvironment.ACTIVE_PROFILES_PROPERTY_NAME, "dev");
         }

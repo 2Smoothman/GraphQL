@@ -33,6 +33,7 @@ public class Bio {
     @JoinColumn(name = "profile_id")
     private Profile profile;
     
+    @JsonBackReference
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;

@@ -9,6 +9,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
@@ -46,17 +49,21 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role = Role.USER;
     
+    @JsonManagedReference
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Profile profile;
     
+    @JsonManagedReference
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Bio bio;
     
+    @JsonIgnore
     @ElementCollection
     @CollectionTable(name = "user_recommendations", 
         joinColumns = @JoinColumn(name = "user_id"))
     private Set<Long> recommendations = new HashSet<>();
 
+    @JsonIgnore
     @ElementCollection
     @CollectionTable(name = "user_connections", 
         joinColumns = @JoinColumn(name = "user_id"))
