@@ -22,7 +22,7 @@ Follow these steps to get your development environment set up and running:
 ### Step 1: Clone the repository
 
 ```bash
-git clone https://github.com/YourUsername/GraphQl-Spring.git
+git clone https://gitea.kood.tech/tiger/match-me
 ```
 
 ### Step 2: Navigate to project directory
@@ -65,7 +65,13 @@ http://localhost:8080/graphiql
 
 ## <span style="color:rgb(189, 198, 193)">API Endpoints</span>
 
-//SWAGGER
+> Full database functionality with Swager:
+
+```bash
+
+http://localhost:8080/swagger-ui/index.html#/
+
+```
 
 > The GraphQL API provides the following operations:
 
