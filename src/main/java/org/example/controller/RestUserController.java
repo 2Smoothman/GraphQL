@@ -16,13 +16,19 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.security.core.Authentication;
+import org.springframework.http.MediaType;
 
 import lombok.RequiredArgsConstructor;
 import org.example.dto.CreateUserInput;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
+@Tag(name = "Users", description = "API для работы с пользователями")
 public class RestUserController {
     private final UserService userService;
 
@@ -76,7 +82,12 @@ public class RestUserController {
         return ResponseEntity.ok(user);
     }
 
-    @PostMapping
+    @Operation(summary = "Создание нового пользователя")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Пользователь успешно создан"),
+        @ApiResponse(responseCode = "400", description = "Некорректные данные")
+    })
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<User> createUser(@RequestBody CreateUserInput input) {
         User user = userService.createUserWithProfile(input);
         return ResponseEntity.ok(user);
