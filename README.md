@@ -131,3 +131,4 @@ Example query response:
 ![LinkedIn](https://img.shields.io/badge/LinkedIn-%230A66C2?style=flat&logo=linkedin&logoColor=white) <br/>**[Timofey Babisashvili](https://www.linkedin.com/in/timofey-tech)**
 
 ![LinkedIn](https://img.shields.io/badge/LinkedIn-%230A66C2?style=flat&logo=linkedin&logoColor=white) <br/>**[Denis Lomakin](https://www.linkedin.com/in/dkartik123/)**<br/><br/>
+
